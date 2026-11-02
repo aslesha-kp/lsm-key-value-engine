@@ -1,0 +1,38 @@
+name: tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.11', '3.14']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    env:
+      LSMKV_TEST_ARTIFACT_DIR: .test-artifacts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install package and development dependency
+        run: python -m pip install -e '.[dev]'
+      - name: Record runtime platform
+        run: python -c "import platform, sys; print(platform.platform()); print(sys.version)"
+      - name: Run all tests, including real filesystem and SIGKILL checks
+        run: python -m pytest -ra --junitxml=.test-artifacts/junit.xml
+      - name: Verify installed CLI
+        run: lsmkv --help
+      - name: Preserve traces and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-records-${{ matrix.os }}-python-${{ matrix.python }}
+          path: .test-artifacts/
+          include-hidden-files: true
+          if-no-files-found: warn

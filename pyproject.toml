@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lsmkv"
+version = "0.0.0"
+requires-python = ">=3.11"
+description = "Python LSM key-value storage with WAL recovery and full-merge compaction"
+
+[project.scripts]
+lsmkv = "lsmkv.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+markers = ["realfs: real Linux/macOS filesystem integration", "processkill: child-process SIGKILL tests (OS cache survives)"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
