@@ -79,18 +79,33 @@ successful barriers; see Apple's [fsync/F_FULLFSYNC documentation](https://devel
 [The CI workflow](.github/workflows/tests.yml) configures Ubuntu/macOS and Python
 3.11/3.14, with full-suite execution, installed CLI help, and JUnit/trace artifacts.
 Jobs have a 10-minute timeout. Native tests skip only on unsupported operating
-systems. No GitHub Actions execution or successful CI run is recorded.
+systems.
 
-### Recorded validation
+### Recorded GitHub CI
+
+[Run 41521655829](https://github.com/aslesha-kp/lsm-key-value-engine/actions/runs/41521655829)
+completed successfully for commit `de202456e95f402fdd0d6db4a0a34ca5457c4fc7`.
+All four matrix jobs succeeded; uploaded JUnit reports confirm the counts below,
+with zero failures and errors. Installed CLI checks and artifact uploads also
+succeeded in every job.
+
+| Runner | Python | Result | Tests | Skipped |
+| --- | --- | --- | ---: | ---: |
+| ubuntu-latest | 3.11 | Success | 282 | 0 |
+| ubuntu-latest | 3.14 | Success | 282 | 0 |
+| macos-latest | 3.11 | Success | 282 | 0 |
+| macos-latest | 3.14 | Success | 282 | 0 |
+
+### Recorded local and reported validation
 
 | Environment | Result | Evidence |
 | --- | --- | --- |
 | macOS Darwin 24.6.0 arm64, Python 3.14.7 | 282 passed, no skips | Full-suite command above; includes three benchmark tests and two targeted coverage regressions |
 | Linux; distribution/Python/hardware unspecified | 277 passed, no skips | Reported test result; command and CI run URL unavailable |
 
-Installed CLI put/get/flush/compact/info checks also passed. Linux test results
-are not evidence of a GitHub Actions run. Benchmark raw records include their
-own environments, commands, and state-verification results.
+Local installed CLI put/get/flush/compact/info checks also passed. These local
+and reported results are separate from the GitHub CI run above. Benchmark raw
+records include their own environments, commands, and state-verification results.
 
 ## CLI
 

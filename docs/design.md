@@ -893,8 +893,11 @@ standard-library only.
 CI is configured to run the full suite and installed CLI help on Linux/macOS with Python 3.11/3.14,
 records versions, and preserves JUnit and child traces, including failed jobs.
 Recorded native validation used Darwin 24.6.0 arm64 / Python 3.14.7.
-No GitHub Actions execution is recorded. Native suites skip only unsupported
-operating systems; unsupported required durability primitives fail explicitly.
+Separately, [GitHub Actions run 41521655829](https://github.com/aslesha-kp/lsm-key-value-engine/actions/runs/41521655829)
+succeeded on Ubuntu/macOS with Python 3.11/3.14: each of the four jobs ran 282
+tests with zero skips, failures, or errors, confirmed by uploaded JUnit reports.
+Native suites skip only unsupported operating systems; unsupported required
+durability primitives fail explicitly.
 No partial compaction, indexes, Bloom filters, group commit, or replication.
 
 Change record: implemented M4 around the existing filesystem interface; specified
@@ -917,5 +920,6 @@ SSTables are cached in memory; lookup measurements are not cold disk reads.
 Reopen retains OS caches and includes Engine.open validation and recovery
 barriers. These small measurements do not establish large-data performance or
 power-loss durability. No storage formats, indexes, filters, commit policy, or
-replication were added. TESTING.md records test environments and results
-separately from configured CI. No successful GitHub Actions execution is recorded.
+replication were added. TESTING.md records local validation and benchmark
+environments separately from the four successful jobs in
+[GitHub Actions run 41521655829](https://github.com/aslesha-kp/lsm-key-value-engine/actions/runs/41521655829).
